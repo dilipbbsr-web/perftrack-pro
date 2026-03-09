@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Users,  TrendingUp, Target, BookOpen, Menu, X, LogOut, Home, Plus, Edit, Trash2, Eye, ArrowRight,    CheckCircle } from 'lucide-react';
+import { Users,  TrendingUp, Target, BookOpen, Menu, X, LogOut, Home, Plus, Edit, Trash2,  CheckCircle } from 'lucide-react';
 
 // Color Theme
 const COLORS = {
