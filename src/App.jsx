@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { BarChart, Bar, LineChart, Line, XAxis } from 'recharts';
 import { Users, TrendingUp, Target, BookOpen, Menu, X, LogOut, Home, Plus, Edit, Trash2 } from 'lucide-react';
 import { supabase } from './supabaseClient';
 
@@ -1315,8 +1314,7 @@ export default function PerformanceManagementApp() {
               borderRadius: '50%',
               background: COLORS.secondary,
               color: 'white',
-              display: 'flex',
-              alignItems: 'center',
+                            alignItems: 'center',
               justifyContent: 'center',
               fontWeight: '700'
             }}>
