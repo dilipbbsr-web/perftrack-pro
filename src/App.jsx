@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Users, TrendingUp, Target, BookOpen, Menu, X, LogOut, Home, Plus, Edit, Trash2 } from 'lucide-react';
 import { supabase } from './supabaseClient';
 
-// Color Theme
 const COLORS = {
   primary: '#1f2937',
   secondary: '#3b82f6',
@@ -16,18 +15,15 @@ const COLORS = {
 
 const APP_NAME = 'PerfTrack Pro';
 
-// ==================== SUPABASE FETCH FUNCTIONS ====================
+// ==================== SUPABASE FUNCTIONS ====================
 
 async function fetchUsers() {
   try {
     const { data, error } = await supabase.from('users').select('*');
-    if (error) {
-      console.error('Error fetching users:', error);
-      return [];
-    }
+    if (error) throw error;
     return data || [];
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Error fetching users:', err);
     return [];
   }
 }
@@ -35,13 +31,10 @@ async function fetchUsers() {
 async function fetchEmployees() {
   try {
     const { data, error } = await supabase.from('employees').select('*');
-    if (error) {
-      console.error('Error fetching employees:', error);
-      return [];
-    }
+    if (error) throw error;
     return data || [];
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Error fetching employees:', err);
     return [];
   }
 }
@@ -49,46 +42,13 @@ async function fetchEmployees() {
 async function fetchKPIs() {
   try {
     const { data, error } = await supabase.from('kpis').select('*');
-    if (error) {
-      console.error('Error fetching KPIs:', error);
-      return [];
-    }
+    if (error) throw error;
     return data || [];
   } catch (err) {
-    console.error('Error:', err);
+    console.error('Error fetching KPIs:', err);
     return [];
   }
 }
-
-async function fetchPerformanceRecords() {
-  try {
-    const { data, error } = await supabase.from('performance_records').select('*');
-    if (error) {
-      console.error('Error fetching performance records:', error);
-      return [];
-    }
-    return data || [];
-  } catch (err) {
-    console.error('Error:', err);
-    return [];
-  }
-}
-
-async function fetchFeedback() {
-  try {
-    const { data, error } = await supabase.from('feedback').select('*');
-    if (error) {
-      console.error('Error fetching feedback:', error);
-      return [];
-    }
-    return data || [];
-  } catch (err) {
-    console.error('Error:', err);
-    return [];
-  }
-}
-
-
 
 // ==================== LOGIN PAGE ====================
 function LoginPage({ onLogin }) {
@@ -130,85 +90,87 @@ function LoginPage({ onLogin }) {
           Performance Management System
         </p>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
-            Email Address
-          </label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter your email"
-            style={{
-              width: '100%',
-              padding: '10px 12px',
-              border: `1px solid ${COLORS.border}`,
-              borderRadius: '8px',
-              fontSize: '14px',
-              boxSizing: 'border-box'
-            }}
-          />
-        </div>
+        <form onSubmit={handleLogin}>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
+              Email Address
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                border: `1px solid ${COLORS.border}`,
+                borderRadius: '8px',
+                fontSize: '14px',
+                boxSizing: 'border-box'
+              }}
+            />
+          </div>
 
-        <div style={{ marginBottom: '20px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
-            Password
-          </label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter your password"
-            style={{
-              width: '100%',
-              padding: '10px 12px',
-              border: `1px solid ${COLORS.border}`,
-              borderRadius: '8px',
-              fontSize: '14px',
-              boxSizing: 'border-box'
-            }}
-          />
-        </div>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
+              Password
+            </label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                border: `1px solid ${COLORS.border}`,
+                borderRadius: '8px',
+                fontSize: '14px',
+                boxSizing: 'border-box'
+              }}
+            />
+          </div>
 
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
-            Select Role
-          </label>
-          <select
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value)}
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
+              Select Role
+            </label>
+            <select
+              value={selectedRole}
+              onChange={(e) => setSelectedRole(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                border: `1px solid ${COLORS.border}`,
+                borderRadius: '8px',
+                fontSize: '14px',
+                boxSizing: 'border-box',
+                backgroundColor: 'white'
+              }}
+            >
+              <option>Admin</option>
+              <option>Manager</option>
+              <option>Employee</option>
+            </select>
+          </div>
+
+          <button
+            type="submit"
             style={{
               width: '100%',
-              padding: '10px 12px',
-              border: `1px solid ${COLORS.border}`,
+              padding: '12px',
+              background: COLORS.secondary,
+              color: 'white',
+              border: 'none',
               borderRadius: '8px',
               fontSize: '14px',
-              boxSizing: 'border-box',
-              backgroundColor: 'white'
+              fontWeight: '600',
+              cursor: 'pointer'
             }}
           >
-            <option>Admin</option>
-            <option>Manager</option>
-            <option>Employee</option>
-          </select>
-        </div>
-
-        <button
-          onClick={handleLogin}
-          style={{
-            width: '100%',
-            padding: '12px',
-            background: COLORS.secondary,
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            fontSize: '14px',
-            fontWeight: '600',
-            cursor: 'pointer'
-          }}
-        >
-          Sign In
-        </button>
+            Sign In
+          </button>
+        </form>
 
         <div style={{ marginTop: '20px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>
           Demo credentials: any email/password combination
@@ -218,14 +180,70 @@ function LoginPage({ onLogin }) {
   );
 }
 
-// ==================== USER MANAGEMENT MODULE ====================
+// ==================== DASHBOARD ====================
+function Dashboard() {
+  const [stats, setStats] = useState({ employees: 0, kpis: 0, users: 0 });
+
+  useEffect(() => {
+    const loadStats = async () => {
+      const employees = await fetchEmployees();
+      const kpis = await fetchKPIs();
+      const users = await fetchUsers();
+      setStats({
+        employees: employees.length,
+        kpis: kpis.length,
+        users: users.length
+      });
+    };
+    loadStats();
+  }, []);
+
+  return (
+    <div style={{ padding: '30px' }}>
+      <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '30px' }}>Dashboard</h2>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+        <div style={{
+          background: 'white',
+          padding: '24px',
+          borderRadius: '8px',
+          border: `1px solid ${COLORS.border}`
+        }}>
+          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total Users</p>
+          <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.secondary }}>{stats.users}</p>
+        </div>
+
+        <div style={{
+          background: 'white',
+          padding: '24px',
+          borderRadius: '8px',
+          border: `1px solid ${COLORS.border}`
+        }}>
+          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total Employees</p>
+          <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.accent }}>{stats.employees}</p>
+        </div>
+
+        <div style={{
+          background: 'white',
+          padding: '24px',
+          borderRadius: '8px',
+          border: `1px solid ${COLORS.border}`
+        }}>
+          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total KPIs</p>
+          <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.warning }}>{stats.kpis}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ==================== USER MANAGEMENT ====================
 function UserManagement() {
   const [users, setUsers] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', role: 'Employee', department: '' });
   const [editingId, setEditingId] = useState(null);
 
-  // Load users on component mount
   useEffect(() => {
     loadUsers();
   }, []);
@@ -243,34 +261,22 @@ function UserManagement() {
 
     try {
       if (editingId) {
-        // Update user in Supabase
         const { data, error } = await supabase
           .from('users')
           .update(formData)
           .eq('id', editingId)
           .select();
 
-        if (error) {
-          console.error('Error updating user:', error);
-          alert('Error updating user');
-          return;
-        }
-
+        if (error) throw error;
         setUsers(users.map(u => u.id === editingId ? data[0] : u));
         setEditingId(null);
       } else {
-        // Add new user to Supabase
         const { data, error } = await supabase
           .from('users')
           .insert([formData])
           .select();
 
-        if (error) {
-          console.error('Error adding user:', error);
-          alert('Error adding user');
-          return;
-        }
-
+        if (error) throw error;
         setUsers([...users, data[0]]);
       }
 
@@ -289,20 +295,11 @@ function UserManagement() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this user?')) return;
+    if (!window.confirm('Are you sure?')) return;
 
     try {
-      const { error } = await supabase
-        .from('users')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        console.error('Error deleting user:', error);
-        alert('Error deleting user');
-        return;
-      }
-
+      const { error } = await supabase.from('users').delete().eq('id', id);
+      if (error) throw error;
       setUsers(users.filter(u => u.id !== id));
     } catch (err) {
       console.error('Error:', err);
@@ -444,20 +441,20 @@ function UserManagement() {
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: COLORS.light }}>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', fontSize: '14px' }}>Name</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', fontSize: '14px' }}>Email</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', fontSize: '14px' }}>Role</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', fontSize: '14px' }}>Department</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600', fontSize: '14px' }}>Actions</th>
+              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Name</th>
+              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Email</th>
+              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Role</th>
+              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Department</th>
+              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Actions</th>
             </tr>
           </thead>
           <tbody>
             {users.map((user, idx) => (
               <tr key={user.id} style={{ borderTop: `1px solid ${COLORS.border}`, background: idx % 2 === 0 ? 'white' : COLORS.light }}>
-                <td style={{ padding: '16px', fontSize: '14px' }}>{user.name}</td>
-                <td style={{ padding: '16px', fontSize: '14px' }}>{user.email}</td>
-                <td style={{ padding: '16px', fontSize: '14px' }}>{user.role}</td>
-                <td style={{ padding: '16px', fontSize: '14px' }}>{user.department}</td>
+                <td style={{ padding: '16px' }}>{user.name}</td>
+                <td style={{ padding: '16px' }}>{user.email}</td>
+                <td style={{ padding: '16px' }}>{user.role}</td>
+                <td style={{ padding: '16px' }}>{user.department}</td>
                 <td style={{ padding: '16px' }}>
                   <button
                     onClick={() => handleEdit(user)}
@@ -472,7 +469,6 @@ function UserManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    <Edit size={14} style={{ display: 'inline', marginRight: '4px' }} />
                     Edit
                   </button>
                   <button
@@ -487,7 +483,6 @@ function UserManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    <Trash2 size={14} style={{ display: 'inline', marginRight: '4px' }} />
                     Delete
                   </button>
                 </td>
@@ -500,7 +495,7 @@ function UserManagement() {
   );
 }
 
-// ==================== EMPLOYEE MANAGEMENT MODULE ====================
+// ==================== EMPLOYEE MANAGEMENT ====================
 function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -530,12 +525,7 @@ function EmployeeManagement() {
           .eq('id', editingId)
           .select();
 
-        if (error) {
-          console.error('Error updating employee:', error);
-          alert('Error updating employee');
-          return;
-        }
-
+        if (error) throw error;
         setEmployees(employees.map(e => e.id === editingId ? data[0] : e));
         setEditingId(null);
       } else {
@@ -544,12 +534,7 @@ function EmployeeManagement() {
           .insert([formData])
           .select();
 
-        if (error) {
-          console.error('Error adding employee:', error);
-          alert('Error adding employee');
-          return;
-        }
-
+        if (error) throw error;
         setEmployees([...employees, data[0]]);
       }
 
@@ -561,27 +546,18 @@ function EmployeeManagement() {
     }
   };
 
-  const handleEdit = (employee) => {
-    setFormData(employee);
-    setEditingId(employee.id);
+  const handleEdit = (emp) => {
+    setFormData(emp);
+    setEditingId(emp.id);
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this employee?')) return;
+    if (!window.confirm('Are you sure?')) return;
 
     try {
-      const { error } = await supabase
-        .from('employees')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        console.error('Error deleting employee:', error);
-        alert('Error deleting employee');
-        return;
-      }
-
+      const { error } = await supabase.from('employees').delete().eq('id', id);
+      if (error) throw error;
       setEmployees(employees.filter(e => e.id !== id));
     } catch (err) {
       console.error('Error:', err);
@@ -659,7 +635,8 @@ function EmployeeManagement() {
               style={{
                 padding: '10px 12px',
                 border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px'
+                borderRadius: '8px',
+                gridColumn: '1 / -1'
               }}
             />
           </div>
@@ -677,7 +654,7 @@ function EmployeeManagement() {
                 fontWeight: '600'
               }}
             >
-              {editingId ? 'Update Employee' : 'Add Employee'}
+              {editingId ? 'Update' : 'Add'}
             </button>
             <button
               onClick={() => {
@@ -726,7 +703,8 @@ function EmployeeManagement() {
                       border: 'none',
                       borderRadius: '4px',
                       cursor: 'pointer',
-                      marginRight: '8px'
+                      marginRight: '8px',
+                      fontSize: '12px'
                     }}
                   >
                     Edit
@@ -739,7 +717,8 @@ function EmployeeManagement() {
                       color: 'white',
                       border: 'none',
                       borderRadius: '4px',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      fontSize: '12px'
                     }}
                   >
                     Delete
@@ -754,7 +733,7 @@ function EmployeeManagement() {
   );
 }
 
-// ==================== KPI MANAGEMENT MODULE ====================
+// ==================== KPI MANAGEMENT ====================
 function KPIManagement() {
   const [kpis, setKpis] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -790,12 +769,7 @@ function KPIManagement() {
           .eq('id', editingId)
           .select();
 
-        if (error) {
-          console.error('Error updating KPI:', error);
-          alert('Error updating KPI');
-          return;
-        }
-
+        if (error) throw error;
         setKpis(kpis.map(k => k.id === editingId ? data[0] : k));
         setEditingId(null);
       } else {
@@ -804,12 +778,7 @@ function KPIManagement() {
           .insert([dataToSave])
           .select();
 
-        if (error) {
-          console.error('Error adding KPI:', error);
-          alert('Error adding KPI');
-          return;
-        }
-
+        if (error) throw error;
         setKpis([...kpis, data[0]]);
       }
 
@@ -828,20 +797,11 @@ function KPIManagement() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this KPI?')) return;
+    if (!window.confirm('Are you sure?')) return;
 
     try {
-      const { error } = await supabase
-        .from('kpis')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        console.error('Error deleting KPI:', error);
-        alert('Error deleting KPI');
-        return;
-      }
-
+      const { error } = await supabase.from('kpis').delete().eq('id', id);
+      if (error) throw error;
       setKpis(kpis.filter(k => k.id !== id));
     } catch (err) {
       console.error('Error:', err);
@@ -902,7 +862,7 @@ function KPIManagement() {
             />
             <input
               type="text"
-              placeholder="Unit (e.g., $, %, hrs)"
+              placeholder="Unit"
               value={formData.unit}
               onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
               style={{
@@ -960,7 +920,7 @@ function KPIManagement() {
                 fontWeight: '600'
               }}
             >
-              {editingId ? 'Update KPI' : 'Add KPI'}
+              {editingId ? 'Update' : 'Add'}
             </button>
             <button
               onClick={() => {
@@ -1013,7 +973,8 @@ function KPIManagement() {
                       border: 'none',
                       borderRadius: '4px',
                       cursor: 'pointer',
-                      marginRight: '8px'
+                      marginRight: '8px',
+                      fontSize: '12px'
                     }}
                   >
                     Edit
@@ -1026,7 +987,8 @@ function KPIManagement() {
                       color: 'white',
                       border: 'none',
                       borderRadius: '4px',
-                      cursor: 'pointer'
+                      cursor: 'pointer',
+                      fontSize: '12px'
                     }}
                   >
                     Delete
@@ -1036,129 +998,6 @@ function KPIManagement() {
             ))}
           </tbody>
         </table>
-      </div>
-    </div>
-  );
-}
-
-// ==================== DASHBOARD MODULE ====================
-function Dashboard() {
-  const [dashboardData, setDashboardData] = useState({ employees: 0, kpis: 0, avgScore: 0 });
-
-  useEffect(() => {
-    loadDashboardData();
-  }, []);
-
-  const loadDashboardData = async () => {
-    const employees = await fetchEmployees();
-    const kpis = await fetchKPIs();
-    setDashboardData({
-      employees: employees.length,
-      kpis: kpis.length,
-      avgScore: 85
-    });
-  };
-
-  return (
-    <div style={{ padding: '30px' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '30px' }}>Dashboard</h2>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '30px' }}>
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          border: `1px solid ${COLORS.border}`
-        }}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total Employees</p>
-          <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.secondary }}>{dashboardData.employees}</p>
-        </div>
-
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          border: `1px solid ${COLORS.border}`
-        }}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total KPIs</p>
-          <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.accent }}>{dashboardData.kpis}</p>
-        </div>
-
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          border: `1px solid ${COLORS.border}`
-        }}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Average Score</p>
-          <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.warning }}>{dashboardData.avgScore}%</p>
-        </div>
-      </div>
-
-      <div style={{
-        background: 'white',
-        padding: '24px',
-        borderRadius: '8px',
-        border: `1px solid ${COLORS.border}`
-      }}>
-        <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>Performance Overview</h3>
-        <p style={{ color: '#6b7280', fontSize: '14px' }}>Performance data will be displayed here after you add performance records.</p>
-      </div>
-    </div>
-  );
-}
-
-// ==================== PERFORMANCE TRACKING MODULE ====================
-function PerformanceTracking() {
-  const [records, setRecords] = useState([]);
-
-  useEffect(() => {
-    loadRecords();
-  }, []);
-
-  const loadRecords = async () => {
-    const data = await fetchPerformanceRecords();
-    setRecords(data);
-  };
-
-  return (
-    <div style={{ padding: '30px' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '30px' }}>Performance Tracking</h2>
-
-      <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
-        <p style={{ color: '#6b7280', fontSize: '14px' }}>
-          {records.length > 0 
-            ? `${records.length} performance records found in database` 
-            : 'No performance records yet. Add performance data from the KPI module.'}
-        </p>
-      </div>
-    </div>
-  );
-}
-
-// ==================== COACHING MODULE ====================
-function CoachingModule() {
-  const [feedback, setFeedback] = useState([]);
-
-  useEffect(() => {
-    loadFeedback();
-  }, []);
-
-  const loadFeedback = async () => {
-    const data = await fetchFeedback();
-    setFeedback(data);
-  };
-
-  return (
-    <div style={{ padding: '30px' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '30px' }}>Coaching & Development</h2>
-
-      <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
-        <p style={{ color: '#6b7280', fontSize: '14px' }}>
-          {feedback.length > 0 
-            ? `${feedback.length} feedback items found` 
-            : 'No feedback yet. Start building your coaching and feedback system.'}
-        </p>
       </div>
     </div>
   );
@@ -1202,8 +1041,8 @@ export default function PerformanceManagementApp() {
       case 'users': return <UserManagement />;
       case 'employees': return <EmployeeManagement />;
       case 'kpis': return <KPIManagement />;
-      case 'performance': return <PerformanceTracking />;
-      case 'coaching': return <CoachingModule />;
+      case 'performance': return <div style={{ padding: '30px' }}><h2>Performance Tracking</h2><p>Coming soon...</p></div>;
+      case 'coaching': return <div style={{ padding: '30px' }}><h2>Coaching & Development</h2><p>Coming soon...</p></div>;
       default: return <Dashboard />;
     }
   };
@@ -1220,7 +1059,7 @@ export default function PerformanceManagementApp() {
         overflow: 'hidden',
         borderRight: `1px solid ${COLORS.border}`
       }}>
-        <h1 style={{ margin: sidebarOpen ? '0 20px 30px 20px' : '0', fontSize: '16px', fontWeight: '700', transition: 'all 0.3s' }}>
+        <h1 style={{ margin: sidebarOpen ? '0 20px 30px 20px' : '0', fontSize: '16px', fontWeight: '700' }}>
           {APP_NAME}
         </h1>
 
@@ -1307,19 +1146,19 @@ export default function PerformanceManagementApp() {
             <span style={{ fontSize: '14px', color: COLORS.text }}>
               Welcome, {currentUser?.name}!
             </span>
-            <span style={{
-              display: 'inline-block',
+            <div style={{
               width: '32px',
               height: '32px',
               borderRadius: '50%',
               background: COLORS.secondary,
               color: 'white',
-                            alignItems: 'center',
+              display: 'flex',
+              alignItems: 'center',
               justifyContent: 'center',
               fontWeight: '700'
             }}>
               {currentUser?.name?.charAt(0).toUpperCase()}
-            </span>
+            </div>
           </div>
         </div>
 
