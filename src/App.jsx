@@ -2,194 +2,66 @@ import React, { useState, useEffect } from 'react';
 import { Users, TrendingUp, Target, BookOpen, Menu, X, LogOut, Home, Plus } from 'lucide-react';
 import { supabase } from './supabaseClient';
 
-const COLORS = {
-  primary: '#1f2937',
-  secondary: '#3b82f6',
-  accent: '#10b981',
-  warning: '#f59e0b',
-  danger: '#ef4444',
-  light: '#f3f4f6',
-  text: '#111827',
-  border: '#e5e7eb'
-};
-
+const COLORS = { primary: '#1f2937', secondary: '#3b82f6', accent: '#10b981', warning: '#f59e0b', danger: '#ef4444', light: '#f3f4f6', text: '#111827', border: '#e5e7eb' };
 const APP_NAME = 'PerfTrack Pro';
 
 async function fetchUsers() {
   try {
     const { data, error } = await supabase.from('users').select('*');
-    if (error) throw error;
-    return data || [];
-  } catch (err) {
-    console.error('Error fetching users:', err);
-    return [];
-  }
+    return error ? [] : data || [];
+  } catch { return []; }
 }
 
 async function fetchEmployees() {
   try {
     const { data, error } = await supabase.from('employees').select('*');
-    if (error) throw error;
-    return data || [];
-  } catch (err) {
-    console.error('Error fetching employees:', err);
-    return [];
-  }
+    return error ? [] : data || [];
+  } catch { return []; }
 }
 
 async function fetchKPIs() {
   try {
     const { data, error } = await supabase.from('kpis').select('*');
-    if (error) throw error;
-    return data || [];
-  } catch (err) {
-    console.error('Error fetching KPIs:', err);
-    return [];
-  }
+    return error ? [] : data || [];
+  } catch { return []; }
 }
 
 function LoginPage({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [selectedRole, setSelectedRole] = useState('Employee');
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    if (email && password) {
-      onLogin({ email, role: selectedRole, name: email.split('@')[0] });
-    }
-  };
+  const [role, setRole] = useState('Employee');
 
   return (
-    <div style={{
-      width: '100vw',
-      height: '100vh',
-      background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
-    }}>
-      <div style={{
-        background: 'white',
-        padding: '40px',
-        borderRadius: '12px',
-        boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-        width: '100%',
-        maxWidth: '400px'
-      }}>
-        <h1 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '8px', color: COLORS.text }}>
-          {APP_NAME}
-        </h1>
-        <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '30px' }}>
-          Performance Management System
-        </p>
-
-        <form onSubmit={handleLogin}>
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              style={{
-                width: '100%',
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                fontSize: '14px',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              style={{
-                width: '100%',
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                fontSize: '14px',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '24px' }}>
-            <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px', color: COLORS.text }}>
-              Select Role
-            </label>
-            <select
-              value={selectedRole}
-              onChange={(e) => setSelectedRole(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                fontSize: '14px',
-                boxSizing: 'border-box',
-                backgroundColor: 'white'
-              }}
-            >
-              <option>Admin</option>
-              <option>Manager</option>
-              <option>Employee</option>
-            </select>
-          </div>
-
-          <button
-            type="submit"
-            style={{
-              width: '100%',
-              padding: '12px',
-              background: COLORS.secondary,
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: 'pointer'
-            }}
-          >
-            Sign In
-          </button>
-        </form>
-
-        <div style={{ marginTop: '20px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>
-          Demo credentials: any email/password combination
+    <div style={{ width: '100vw', height: '100vh', background: `linear-gradient(135deg, ${COLORS.primary} 0%, ${COLORS.secondary} 100%)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: 'white', padding: '40px', borderRadius: '12px', boxShadow: '0 20px 60px rgba(0,0,0,0.3)', width: '100%', maxWidth: '400px' }}>
+        <h1 style={{ fontSize: '28px', fontWeight: '700', marginBottom: '8px', color: COLORS.text }}>{APP_NAME}</h1>
+        <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '30px' }}>Performance Management System</p>
+        <div style={{ marginBottom: '20px' }}>
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" style={{ width: '100%', padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', marginBottom: '16px' }} />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" style={{ width: '100%', padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box', marginBottom: '16px' }} />
+          <select value={role} onChange={(e) => setRole(e.target.value)} style={{ width: '100%', padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px', boxSizing: 'border-box' }}>
+            <option>Admin</option>
+            <option>Manager</option>
+            <option>Employee</option>
+          </select>
         </div>
+        <button onClick={() => email && password && onLogin({ email, role, name: email.split('@')[0] })} style={{ width: '100%', padding: '12px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '8px', fontSize: '14px', fontWeight: '600', cursor: 'pointer' }}>Sign In</button>
+        <div style={{ marginTop: '20px', fontSize: '12px', color: '#6b7280', textAlign: 'center' }}>Any email/password works</div>
       </div>
     </div>
   );
 }
 
 function Dashboard() {
-  const [stats, setStats] = useState({ employees: 0, kpis: 0, users: 0 });
-
+  const [stats, setStats] = useState({ users: 0, employees: 0, kpis: 0 });
   useEffect(() => {
-    const loadStats = async () => {
+    const load = async () => {
+      const users = await fetchUsers();
       const employees = await fetchEmployees();
       const kpis = await fetchKPIs();
-      const users = await fetchUsers();
-      setStats({
-        employees: employees.length,
-        kpis: kpis.length,
-        users: users.length
-      });
+      setStats({ users: users.length, employees: employees.length, kpis: kpis.length });
     };
-    loadStats();
+    load();
   }, []);
 
   return (
@@ -197,15 +69,15 @@ function Dashboard() {
       <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '30px' }}>Dashboard</h2>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
         <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total Users</p>
+          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px' }}>Total Users</p>
           <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.secondary }}>{stats.users}</p>
         </div>
         <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total Employees</p>
+          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px' }}>Total Employees</p>
           <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.accent }}>{stats.employees}</p>
         </div>
         <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
-          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total KPIs</p>
+          <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px' }}>Total KPIs</p>
           <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.warning }}>{stats.kpis}</p>
         </div>
       </div>
@@ -215,69 +87,23 @@ function Dashboard() {
 
 function UserManagement() {
   const [users, setUsers] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', role: 'Employee', department: '' });
-  const [editingId, setEditingId] = useState(null);
+  const [form, setForm] = useState({ name: '', email: '', role: 'Employee', department: '' });
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
-    loadUsers();
+    fetchUsers().then(setUsers);
   }, []);
 
-  const loadUsers = async () => {
-    const data = await fetchUsers();
-    setUsers(data);
+  const add = async () => {
+    if (!form.name || !form.email) { alert('Fill all fields'); return; }
+    const { data, error } = await supabase.from('users').insert([form]).select();
+    if (!error) { setUsers([...users, data[0]]); setForm({ name: '', email: '', role: 'Employee', department: '' }); setShow(false); }
   };
 
-  const handleAddOrUpdate = async () => {
-    if (!formData.name || !formData.email) {
-      alert('Please fill in all fields');
-      return;
-    }
-
-    try {
-      if (editingId) {
-        const { data, error } = await supabase
-          .from('users')
-          .update(formData)
-          .eq('id', editingId)
-          .select();
-
-        if (error) throw error;
-        setUsers(users.map(u => u.id === editingId ? data[0] : u));
-        setEditingId(null);
-      } else {
-        const { data, error } = await supabase
-          .from('users')
-          .insert([formData])
-          .select();
-
-        if (error) throw error;
-        setUsers([...users, data[0]]);
-      }
-
-      setFormData({ name: '', email: '', role: 'Employee', department: '' });
-      setShowForm(false);
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error saving user');
-    }
-  };
-
-  const handleEdit = (user) => {
-    setFormData(user);
-    setEditingId(user.id);
-    setShowForm(true);
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure?')) return;
-    try {
-      const { error } = await supabase.from('users').delete().eq('id', id);
-      if (error) throw error;
+  const del = async (id) => {
+    if (window.confirm('Delete?')) {
+      await supabase.from('users').delete().eq('id', id);
       setUsers(users.filter(u => u.id !== id));
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error deleting user');
     }
   };
 
@@ -285,119 +111,35 @@ function UserManagement() {
     <div style={{ padding: '30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '700', margin: 0 }}>User Management</h2>
-        <button
-          onClick={() => {
-            setShowForm(!showForm);
-            setEditingId(null);
-            setFormData({ name: '', email: '', role: 'Employee', department: '' });
-          }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '10px 16px',
-            background: COLORS.secondary,
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: '600'
-          }}
-        >
-          <Plus size={18} />
-          Add User
-        </button>
+        <button onClick={() => setShow(!show)} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><Plus size={18} />Add</button>
       </div>
-
-      {showForm && (
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          marginBottom: '30px',
-          border: `1px solid ${COLORS.border}`
-        }}>
-          <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>
-            {editingId ? 'Edit User' : 'Add New User'}
-          </h3>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <input
-              type="text"
-              placeholder="Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
-            />
-            <select
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
-            >
-              <option>Admin</option>
-              <option>Manager</option>
-              <option>Employee</option>
-            </select>
-            <input
-              type="text"
-              placeholder="Department"
-              value={formData.department}
-              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
-            />
+      {show && (
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', marginBottom: '30px', border: `1px solid ${COLORS.border}` }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '16px' }}>
+            <input type="text" placeholder="Name" value={form.name} onChange={(e) => setForm({...form, name: e.target.value})} style={{ padding: '8px', border: `1px solid ${COLORS.border}`, borderRadius: '4px' }} />
+            <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} style={{ padding: '8px', border: `1px solid ${COLORS.border}`, borderRadius: '4px' }} />
           </div>
-
-          <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-            <button
-              onClick={handleAddOrUpdate}
-              style={{ padding: '10px 20px', background: COLORS.accent, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}
-            >
-              {editingId ? 'Update User' : 'Add User'}
-            </button>
-            <button
-              onClick={() => {
-                setShowForm(false);
-                setEditingId(null);
-                setFormData({ name: '', email: '', role: 'Employee', department: '' });
-              }}
-              style={{ padding: '10px 20px', background: COLORS.border, color: COLORS.text, border: 'none', borderRadius: '8px', cursor: 'pointer' }}
-            >
-              Cancel
-            </button>
-          </div>
+          <button onClick={add} style={{ padding: '8px 16px', background: COLORS.accent, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '8px' }}>Add User</button>
+          <button onClick={() => setShow(false)} style={{ padding: '8px 16px', background: COLORS.border, border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Cancel</button>
         </div>
       )}
-
       <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', border: `1px solid ${COLORS.border}` }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <table style={{ width: '100%' }}>
           <thead>
             <tr style={{ background: COLORS.light }}>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Name</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Email</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Role</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Department</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Actions</th>
+              <th style={{ padding: '12px', textAlign: 'left' }}>Name</th>
+              <th style={{ padding: '12px', textAlign: 'left' }}>Email</th>
+              <th style={{ padding: '12px', textAlign: 'left' }}>Role</th>
+              <th style={{ padding: '12px', textAlign: 'left' }}>Action</th>
             </tr>
           </thead>
           <tbody>
-            {users.map((user, idx) => (
-              <tr key={user.id} style={{ borderTop: `1px solid ${COLORS.border}`, background: idx % 2 === 0 ? 'white' : COLORS.light }}>
-                <td style={{ padding: '16px' }}>{user.name}</td>
-                <td style={{ padding: '16px' }}>{user.email}</td>
-                <td style={{ padding: '16px' }}>{user.role}</td>
-                <td style={{ padding: '16px' }}>{user.department}</td>
-                <td style={{ padding: '16px' }}>
-                  <button onClick={() => handleEdit(user)} style={{ padding: '6px 12px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '8px', fontSize: '12px' }}>✏️ Edit</button>
-                  <button onClick={() => handleDelete(user.id)} style={{ padding: '6px 12px', background: COLORS.danger, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>🗑️ Delete</button>
-                </td>
+            {users.map(u => (
+              <tr key={u.id} style={{ borderTop: `1px solid ${COLORS.border}` }}>
+                <td style={{ padding: '12px' }}>{u.name}</td>
+                <td style={{ padding: '12px' }}>{u.email}</td>
+                <td style={{ padding: '12px' }}>{u.role}</td>
+                <td style={{ padding: '12px' }}><button onClick={() => del(u.id)} style={{ padding: '4px 8px', background: COLORS.danger, color: 'white', border: 'none', borderRadius: '3px', cursor: 'pointer' }}>Delete</button></td>
               </tr>
             ))}
           </tbody>
@@ -408,215 +150,52 @@ function UserManagement() {
 }
 
 function EmployeeManagement() {
-  const [employees, setEmployees] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ name: '', team: '', department: '' });
-  const [editingId, setEditingId] = useState(null);
+  return <div style={{ padding: '30px' }}><h2>Employee Management</h2><p>Coming soon...</p></div>;
+}
 
-  useEffect(() => {
-    loadEmployees();
-  }, []);
+function KPIManagement() {
+  return <div style={{ padding: '30px' }}><h2>KPI Management</h2><p>Coming soon...</p></div>;
+}
 
-  const loadEmployees = async () => {
-    const data = await fetchEmployees();
-    setEmployees(data);
-  };
+export default function App() {
+  const [logged, setLogged] = useState(false);
+  const [user, setUser] = useState(null);
+  const [module, setModule] = useState('dashboard');
+  const [sidebar, setSidebar] = useState(true);
 
-  const handleAddOrUpdate = async () => {
-    if (!formData.name || !formData.team) {
-      alert('Please fill in all fields');
-      return;
-    }
-
-    try {
-      if (editingId) {
-        const { data, error } = await supabase.from('employees').update(formData).eq('id', editingId).select();
-        if (error) throw error;
-        setEmployees(employees.map(e => e.id === editingId ? data[0] : e));
-        setEditingId(null);
-      } else {
-        const { data, error } = await supabase.from('employees').insert([formData]).select();
-        if (error) throw error;
-        setEmployees([...employees, data[0]]);
-      }
-      setFormData({ name: '', team: '', department: '' });
-      setShowForm(false);
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error saving employee');
-    }
-  };
-
-  const handleEdit = (emp) => {
-    setFormData(emp);
-    setEditingId(emp.id);
-    setShowForm(true);
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure?')) return;
-    try {
-      const { error } = await supabase.from('employees').delete().eq('id', id);
-      if (error) throw error;
-      setEmployees(employees.filter(e => e.id !== id));
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error deleting employee');
-    }
-  };
+  if (!logged) return <LoginPage onLogin={(u) => { setUser(u); setLogged(true); }} />;
 
   return (
-    <div style={{ padding: '30px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '700', margin: 0 }}>Employee Management</h2>
-        <button onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ name: '', team: '', department: '' }); }} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><Plus size={18} />Add Employee</button>
+    <div style={{ display: 'flex', minHeight: '100vh', background: COLORS.light }}>
+      <div style={{ width: sidebar ? '260px' : '0', background: COLORS.primary, color: 'white', padding: sidebar ? '20px 0' : '0', overflow: 'hidden', transition: 'all 0.3s' }}>
+        <h1 style={{ margin: '0 20px 20px 20px', fontSize: '14px', fontWeight: '700' }}>{APP_NAME}</h1>
+        {[
+          { id: 'dashboard', name: 'Dashboard', icon: Home },
+          { id: 'users', name: 'Users', icon: Users },
+          { id: 'employees', name: 'Employees', icon: Users },
+          { id: 'kpis', name: 'KPIs', icon: Target },
+        ].map(m => {
+          const Icon = m.icon;
+          return (
+            <button key={m.id} onClick={() => setModule(m.id)} style={{ width: '100%', padding: '12px 20px', background: module === m.id ? COLORS.secondary : 'transparent', color: 'white', border: 'none', textAlign: 'left', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Icon size={16} /> {sidebar && m.name}
+            </button>
+          );
+        })}
       </div>
-
-      {showForm && (
-        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', marginBottom: '30px', border: `1px solid ${COLORS.border}` }}>
-          <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>{editingId ? 'Edit Employee' : 'Add New Employee'}</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <input type="text" placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
-            <input type="text" placeholder="Team" value={formData.team} onChange={(e) => setFormData({ ...formData, team: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
-            <input type="text" placeholder="Department" value={formData.department} onChange={(e) => setFormData({ ...formData, department: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', gridColumn: '1 / -1' }} />
-          </div>
-          <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-            <button onClick={handleAddOrUpdate} style={{ padding: '10px 20px', background: COLORS.accent, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}>{editingId ? 'Update' : 'Add'}</button>
-            <button onClick={() => { setShowForm(false); setEditingId(null); setFormData({ name: '', team: '', department: '' }); }} style={{ padding: '10px 20px', background: COLORS.border, color: COLORS.text, border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Cancel</button>
+      <div style={{ flex: 1, overflow: 'auto' }}>
+        <div style={{ background: 'white', padding: '12px 20px', borderBottom: `1px solid ${COLORS.border}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <button onClick={() => setSidebar(!sidebar)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '20px' }}>{sidebar ? <X size={20} /> : <Menu size={20} />}</button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <span style={{ fontSize: '14px' }}>Welcome, {user?.name}!</span>
+            <button onClick={() => { setLogged(false); setUser(null); }} style={{ padding: '6px 12px', background: COLORS.danger, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', display: 'flex', alignItems: 'center', gap: '4px' }}><LogOut size={14} />Logout</button>
           </div>
         </div>
-      )}
-
-      <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', border: `1px solid ${COLORS.border}` }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: COLORS.light }}>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Name</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Team</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Department</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {employees.map((emp, idx) => (
-              <tr key={emp.id} style={{ borderTop: `1px solid ${COLORS.border}`, background: idx % 2 === 0 ? 'white' : COLORS.light }}>
-                <td style={{ padding: '16px' }}>{emp.name}</td>
-                <td style={{ padding: '16px' }}>{emp.team}</td>
-                <td style={{ padding: '16px' }}>{emp.department}</td>
-                <td style={{ padding: '16px' }}>
-                  <button onClick={() => handleEdit(emp)} style={{ padding: '6px 12px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '8px', fontSize: '12px' }}>✏️ Edit</button>
-                  <button onClick={() => handleDelete(emp.id)} style={{ padding: '6px 12px', background: COLORS.danger, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>🗑️ Delete</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {module === 'dashboard' && <Dashboard />}
+        {module === 'users' && <UserManagement />}
+        {module === 'employees' && <EmployeeManagement />}
+        {module === 'kpis' && <KPIManagement />}
       </div>
     </div>
   );
 }
-
-function KPIManagement() {
-  const [kpis, setKpis] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({ name: '', formula: '', unit: '', weight: '', threshold: '' });
-  const [editingId, setEditingId] = useState(null);
-
-  useEffect(() => {
-    loadKPIs();
-  }, []);
-
-  const loadKPIs = async () => {
-    const data = await fetchKPIs();
-    setKpis(data);
-  };
-
-  const handleAddOrUpdate = async () => {
-    if (!formData.name) {
-      alert('Please fill in all fields');
-      return;
-    }
-
-    try {
-      const dataToSave = {
-        ...formData,
-        weight: parseFloat(formData.weight) || 0,
-        threshold: parseFloat(formData.threshold) || 0
-      };
-
-      if (editingId) {
-        const { data, error } = await supabase.from('kpis').update(dataToSave).eq('id', editingId).select();
-        if (error) throw error;
-        setKpis(kpis.map(k => k.id === editingId ? data[0] : k));
-        setEditingId(null);
-      } else {
-        const { data, error } = await supabase.from('kpis').insert([dataToSave]).select();
-        if (error) throw error;
-        setKpis([...kpis, data[0]]);
-      }
-
-      setFormData({ name: '', formula: '', unit: '', weight: '', threshold: '' });
-      setShowForm(false);
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error saving KPI');
-    }
-  };
-
-  const handleEdit = (kpi) => {
-    setFormData(kpi);
-    setEditingId(kpi.id);
-    setShowForm(true);
-  };
-
-  const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure?')) return;
-    try {
-      const { error } = await supabase.from('kpis').delete().eq('id', id);
-      if (error) throw error;
-      setKpis(kpis.filter(k => k.id !== id));
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error deleting KPI');
-    }
-  };
-
-  return (
-    <div style={{ padding: '30px' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
-        <h2 style={{ fontSize: '24px', fontWeight: '700', margin: 0 }}>KPI Management</h2>
-        <button onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ name: '', formula: '', unit: '', weight: '', threshold: '' }); }} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><Plus size={18} />Add KPI</button>
-      </div>
-
-      {showForm && (
-        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', marginBottom: '30px', border: `1px solid ${COLORS.border}` }}>
-          <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>{editingId ? 'Edit KPI' : 'Add New KPI'}</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <input type="text" placeholder="KPI Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
-            <input type="text" placeholder="Unit" value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
-            <input type="text" placeholder="Formula" value={formData.formula} onChange={(e) => setFormData({ ...formData, formula: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', gridColumn: '1 / -1' }} />
-            <input type="number" placeholder="Weight" value={formData.weight} onChange={(e) => setFormData({ ...formData, weight: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
-            <input type="number" placeholder="Threshold" value={formData.threshold} onChange={(e) => setFormData({ ...formData, threshold: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
-          </div>
-          <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-            <button onClick={handleAddOrUpdate} style={{ padding: '10px 20px', background: COLORS.accent, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}>{editingId ? 'Update' : 'Add'}</button>
-            <button onClick={() => { setShowForm(false); setEditingId(null); setFormData({ name: '', formula: '', unit: '', weight: '', threshold: '' }); }} style={{ padding: '10px 20px', background: COLORS.border, color: COLORS.text, border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Cancel</button>
-          </div>
-        </div>
-      )}
-
-      <div style={{ background: 'white', borderRadius: '8px', overflow: 'hidden', border: `1px solid ${COLORS.border}` }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-          <thead>
-            <tr style={{ background: COLORS.light }}>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Name</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Formula</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Unit</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Weight</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Threshold</th>
-              <th style={{ padding: '16px', textAlign: 'left', fontWeight: '600' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {kpis.map((kpi, idx) => (
-              <tr key={kpi.id} style={{ borderTop: `1px solid ${
