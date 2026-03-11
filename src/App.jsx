@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, TrendingUp, Target, BookOpen, Menu, X, LogOut, Home, Plus } from 'lucide-react';
+import { Users, TrendingUp, Target, BookOpen, Menu, X, LogOut, Home, Plus, Edit, Trash2 } from 'lucide-react';
 import { supabase } from './supabaseClient';
 
 const COLORS = {
@@ -469,7 +469,7 @@ function UserManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    Edit
+                    ✏️ Edit
                   </button>
                   <button
                     onClick={() => handleDelete(user.id)}
@@ -483,7 +483,7 @@ function UserManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    Delete
+                    🗑️ Delete
                   </button>
                 </td>
               </tr>
@@ -707,7 +707,7 @@ function EmployeeManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    Edit
+                    ✏️ Edit
                   </button>
                   <button
                     onClick={() => handleDelete(emp.id)}
@@ -721,7 +721,7 @@ function EmployeeManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    Delete
+                    🗑️ Delete
                   </button>
                 </td>
               </tr>
@@ -977,7 +977,7 @@ function KPIManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    Edit
+                    ✏️ Edit
                   </button>
                   <button
                     onClick={() => handleDelete(kpi.id)}
@@ -991,7 +991,7 @@ function KPIManagement() {
                       fontSize: '12px'
                     }}
                   >
-                    Delete
+                    🗑️ Delete
                   </button>
                 </td>
               </tr>
