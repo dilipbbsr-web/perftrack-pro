@@ -13,7 +13,7 @@ const COLORS = {
   border: '#e5e7eb'
 };
 
-const APP_NAME = 'PerfTrack Pro';
+const APP_NAME = 'PerfTrack Pro v1.0';
 
 // ==================== SUPABASE FUNCTIONS ====================
 
