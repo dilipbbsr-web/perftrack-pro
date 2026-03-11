@@ -13,9 +13,7 @@ const COLORS = {
   border: '#e5e7eb'
 };
 
-const APP_NAME = 'PerfTrack Pro v1.0';
-
-// ==================== SUPABASE FUNCTIONS ====================
+const APP_NAME = 'PerfTrack Pro';
 
 async function fetchUsers() {
   try {
@@ -50,7 +48,6 @@ async function fetchKPIs() {
   }
 }
 
-// ==================== LOGIN PAGE ====================
 function LoginPage({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -60,8 +57,6 @@ function LoginPage({ onLogin }) {
     e.preventDefault();
     if (email && password) {
       onLogin({ email, role: selectedRole, name: email.split('@')[0] });
-      setEmail('');
-      setPassword('');
     }
   };
 
@@ -180,7 +175,6 @@ function LoginPage({ onLogin }) {
   );
 }
 
-// ==================== DASHBOARD ====================
 function Dashboard() {
   const [stats, setStats] = useState({ employees: 0, kpis: 0, users: 0 });
 
@@ -201,34 +195,16 @@ function Dashboard() {
   return (
     <div style={{ padding: '30px' }}>
       <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '30px' }}>Dashboard</h2>
-
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          border: `1px solid ${COLORS.border}`
-        }}>
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
           <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total Users</p>
           <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.secondary }}>{stats.users}</p>
         </div>
-
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          border: `1px solid ${COLORS.border}`
-        }}>
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
           <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total Employees</p>
           <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.accent }}>{stats.employees}</p>
         </div>
-
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          border: `1px solid ${COLORS.border}`
-        }}>
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', border: `1px solid ${COLORS.border}` }}>
           <p style={{ margin: '0 0 12px 0', color: '#6b7280', fontSize: '14px', fontWeight: '500' }}>Total KPIs</p>
           <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: COLORS.warning }}>{stats.kpis}</p>
         </div>
@@ -237,7 +213,6 @@ function Dashboard() {
   );
 }
 
-// ==================== USER MANAGEMENT ====================
 function UserManagement() {
   const [users, setUsers] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -296,7 +271,6 @@ function UserManagement() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return;
-
     try {
       const { error } = await supabase.from('users').delete().eq('id', id);
       if (error) throw error;
@@ -354,34 +328,19 @@ function UserManagement() {
               placeholder="Name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                fontSize: '14px'
-              }}
+              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
             />
             <input
               type="email"
               placeholder="Email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                fontSize: '14px'
-              }}
+              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
             />
             <select
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                fontSize: '14px'
-              }}
+              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
             >
               <option>Admin</option>
               <option>Manager</option>
@@ -392,27 +351,14 @@ function UserManagement() {
               placeholder="Department"
               value={formData.department}
               onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                fontSize: '14px'
-              }}
+              style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', fontSize: '14px' }}
             />
           </div>
 
           <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
             <button
               onClick={handleAddOrUpdate}
-              style={{
-                padding: '10px 20px',
-                background: COLORS.accent,
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: '600'
-              }}
+              style={{ padding: '10px 20px', background: COLORS.accent, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}
             >
               {editingId ? 'Update User' : 'Add User'}
             </button>
@@ -422,14 +368,7 @@ function UserManagement() {
                 setEditingId(null);
                 setFormData({ name: '', email: '', role: 'Employee', department: '' });
               }}
-              style={{
-                padding: '10px 20px',
-                background: COLORS.border,
-                color: COLORS.text,
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer'
-              }}
+              style={{ padding: '10px 20px', background: COLORS.border, color: COLORS.text, border: 'none', borderRadius: '8px', cursor: 'pointer' }}
             >
               Cancel
             </button>
@@ -456,35 +395,8 @@ function UserManagement() {
                 <td style={{ padding: '16px' }}>{user.role}</td>
                 <td style={{ padding: '16px' }}>{user.department}</td>
                 <td style={{ padding: '16px' }}>
-                  <button
-                    onClick={() => handleEdit(user)}
-                    style={{
-                      padding: '6px 12px',
-                      background: COLORS.secondary,
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      marginRight: '8px',
-                      fontSize: '12px'
-                    }}
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(user.id)}
-                    style={{
-                      padding: '6px 12px',
-                      background: COLORS.danger,
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '12px'
-                    }}
-                  >
-                    🗑️ Delete
-                  </button>
+                  <button onClick={() => handleEdit(user)} style={{ padding: '6px 12px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '8px', fontSize: '12px' }}>✏️ Edit</button>
+                  <button onClick={() => handleDelete(user.id)} style={{ padding: '6px 12px', background: COLORS.danger, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>🗑️ Delete</button>
                 </td>
               </tr>
             ))}
@@ -495,7 +407,6 @@ function UserManagement() {
   );
 }
 
-// ==================== EMPLOYEE MANAGEMENT ====================
 function EmployeeManagement() {
   const [employees, setEmployees] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -519,25 +430,15 @@ function EmployeeManagement() {
 
     try {
       if (editingId) {
-        const { data, error } = await supabase
-          .from('employees')
-          .update(formData)
-          .eq('id', editingId)
-          .select();
-
+        const { data, error } = await supabase.from('employees').update(formData).eq('id', editingId).select();
         if (error) throw error;
         setEmployees(employees.map(e => e.id === editingId ? data[0] : e));
         setEditingId(null);
       } else {
-        const { data, error } = await supabase
-          .from('employees')
-          .insert([formData])
-          .select();
-
+        const { data, error } = await supabase.from('employees').insert([formData]).select();
         if (error) throw error;
         setEmployees([...employees, data[0]]);
       }
-
       setFormData({ name: '', team: '', department: '' });
       setShowForm(false);
     } catch (err) {
@@ -554,7 +455,6 @@ function EmployeeManagement() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return;
-
     try {
       const { error } = await supabase.from('employees').delete().eq('id', id);
       if (error) throw error;
@@ -569,110 +469,20 @@ function EmployeeManagement() {
     <div style={{ padding: '30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '700', margin: 0 }}>Employee Management</h2>
-        <button
-          onClick={() => {
-            setShowForm(!showForm);
-            setEditingId(null);
-            setFormData({ name: '', team: '', department: '' });
-          }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '10px 16px',
-            background: COLORS.secondary,
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer'
-          }}
-        >
-          <Plus size={18} />
-          Add Employee
-        </button>
+        <button onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ name: '', team: '', department: '' }); }} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><Plus size={18} />Add Employee</button>
       </div>
 
       {showForm && (
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          marginBottom: '30px',
-          border: `1px solid ${COLORS.border}`
-        }}>
-          <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>
-            {editingId ? 'Edit Employee' : 'Add New Employee'}
-          </h3>
-
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', marginBottom: '30px', border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>{editingId ? 'Edit Employee' : 'Add New Employee'}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <input
-              type="text"
-              placeholder="Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px'
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Team"
-              value={formData.team}
-              onChange={(e) => setFormData({ ...formData, team: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px'
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Department"
-              value={formData.department}
-              onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                gridColumn: '1 / -1'
-              }}
-            />
+            <input type="text" placeholder="Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
+            <input type="text" placeholder="Team" value={formData.team} onChange={(e) => setFormData({ ...formData, team: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
+            <input type="text" placeholder="Department" value={formData.department} onChange={(e) => setFormData({ ...formData, department: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', gridColumn: '1 / -1' }} />
           </div>
-
           <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-            <button
-              onClick={handleAddOrUpdate}
-              style={{
-                padding: '10px 20px',
-                background: COLORS.accent,
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: '600'
-              }}
-            >
-              {editingId ? 'Update' : 'Add'}
-            </button>
-            <button
-              onClick={() => {
-                setShowForm(false);
-                setEditingId(null);
-                setFormData({ name: '', team: '', department: '' });
-              }}
-              style={{
-                padding: '10px 20px',
-                background: COLORS.border,
-                color: COLORS.text,
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer'
-              }}
-            >
-              Cancel
-            </button>
+            <button onClick={handleAddOrUpdate} style={{ padding: '10px 20px', background: COLORS.accent, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}>{editingId ? 'Update' : 'Add'}</button>
+            <button onClick={() => { setShowForm(false); setEditingId(null); setFormData({ name: '', team: '', department: '' }); }} style={{ padding: '10px 20px', background: COLORS.border, color: COLORS.text, border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Cancel</button>
           </div>
         </div>
       )}
@@ -694,35 +504,8 @@ function EmployeeManagement() {
                 <td style={{ padding: '16px' }}>{emp.team}</td>
                 <td style={{ padding: '16px' }}>{emp.department}</td>
                 <td style={{ padding: '16px' }}>
-                  <button
-                    onClick={() => handleEdit(emp)}
-                    style={{
-                      padding: '6px 12px',
-                      background: COLORS.secondary,
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      marginRight: '8px',
-                      fontSize: '12px'
-                    }}
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(emp.id)}
-                    style={{
-                      padding: '6px 12px',
-                      background: COLORS.danger,
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '12px'
-                    }}
-                  >
-                    🗑️ Delete
-                  </button>
+                  <button onClick={() => handleEdit(emp)} style={{ padding: '6px 12px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', marginRight: '8px', fontSize: '12px' }}>✏️ Edit</button>
+                  <button onClick={() => handleDelete(emp.id)} style={{ padding: '6px 12px', background: COLORS.danger, color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', fontSize: '12px' }}>🗑️ Delete</button>
                 </td>
               </tr>
             ))}
@@ -733,7 +516,6 @@ function EmployeeManagement() {
   );
 }
 
-// ==================== KPI MANAGEMENT ====================
 function KPIManagement() {
   const [kpis, setKpis] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -763,21 +545,12 @@ function KPIManagement() {
       };
 
       if (editingId) {
-        const { data, error } = await supabase
-          .from('kpis')
-          .update(dataToSave)
-          .eq('id', editingId)
-          .select();
-
+        const { data, error } = await supabase.from('kpis').update(dataToSave).eq('id', editingId).select();
         if (error) throw error;
         setKpis(kpis.map(k => k.id === editingId ? data[0] : k));
         setEditingId(null);
       } else {
-        const { data, error } = await supabase
-          .from('kpis')
-          .insert([dataToSave])
-          .select();
-
+        const { data, error } = await supabase.from('kpis').insert([dataToSave]).select();
         if (error) throw error;
         setKpis([...kpis, data[0]]);
       }
@@ -798,7 +571,6 @@ function KPIManagement() {
 
   const handleDelete = async (id) => {
     if (!window.confirm('Are you sure?')) return;
-
     try {
       const { error } = await supabase.from('kpis').delete().eq('id', id);
       if (error) throw error;
@@ -813,132 +585,22 @@ function KPIManagement() {
     <div style={{ padding: '30px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
         <h2 style={{ fontSize: '24px', fontWeight: '700', margin: 0 }}>KPI Management</h2>
-        <button
-          onClick={() => {
-            setShowForm(!showForm);
-            setEditingId(null);
-            setFormData({ name: '', formula: '', unit: '', weight: '', threshold: '' });
-          }}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '10px 16px',
-            background: COLORS.secondary,
-            color: 'white',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer'
-          }}
-        >
-          <Plus size={18} />
-          Add KPI
-        </button>
+        <button onClick={() => { setShowForm(!showForm); setEditingId(null); setFormData({ name: '', formula: '', unit: '', weight: '', threshold: '' }); }} style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 16px', background: COLORS.secondary, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer' }}><Plus size={18} />Add KPI</button>
       </div>
 
       {showForm && (
-        <div style={{
-          background: 'white',
-          padding: '24px',
-          borderRadius: '8px',
-          marginBottom: '30px',
-          border: `1px solid ${COLORS.border}`
-        }}>
-          <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>
-            {editingId ? 'Edit KPI' : 'Add New KPI'}
-          </h3>
-
+        <div style={{ background: 'white', padding: '24px', borderRadius: '8px', marginBottom: '30px', border: `1px solid ${COLORS.border}` }}>
+          <h3 style={{ marginTop: 0, marginBottom: '20px', fontSize: '18px', fontWeight: '600' }}>{editingId ? 'Edit KPI' : 'Add New KPI'}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-            <input
-              type="text"
-              placeholder="KPI Name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px'
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Unit"
-              value={formData.unit}
-              onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px'
-              }}
-            />
-            <input
-              type="text"
-              placeholder="Formula"
-              value={formData.formula}
-              onChange={(e) => setFormData({ ...formData, formula: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px',
-                gridColumn: '1 / -1'
-              }}
-            />
-            <input
-              type="number"
-              placeholder="Weight"
-              value={formData.weight}
-              onChange={(e) => setFormData({ ...formData, weight: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px'
-              }}
-            />
-            <input
-              type="number"
-              placeholder="Threshold"
-              value={formData.threshold}
-              onChange={(e) => setFormData({ ...formData, threshold: e.target.value })}
-              style={{
-                padding: '10px 12px',
-                border: `1px solid ${COLORS.border}`,
-                borderRadius: '8px'
-              }}
-            />
+            <input type="text" placeholder="KPI Name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
+            <input type="text" placeholder="Unit" value={formData.unit} onChange={(e) => setFormData({ ...formData, unit: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
+            <input type="text" placeholder="Formula" value={formData.formula} onChange={(e) => setFormData({ ...formData, formula: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px', gridColumn: '1 / -1' }} />
+            <input type="number" placeholder="Weight" value={formData.weight} onChange={(e) => setFormData({ ...formData, weight: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
+            <input type="number" placeholder="Threshold" value={formData.threshold} onChange={(e) => setFormData({ ...formData, threshold: e.target.value })} style={{ padding: '10px 12px', border: `1px solid ${COLORS.border}`, borderRadius: '8px' }} />
           </div>
-
           <div style={{ display: 'flex', gap: '12px', marginTop: '20px' }}>
-            <button
-              onClick={handleAddOrUpdate}
-              style={{
-                padding: '10px 20px',
-                background: COLORS.accent,
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: '600'
-              }}
-            >
-              {editingId ? 'Update' : 'Add'}
-            </button>
-            <button
-              onClick={() => {
-                setShowForm(false);
-                setEditingId(null);
-                setFormData({ name: '', formula: '', unit: '', weight: '', threshold: '' });
-              }}
-              style={{
-                padding: '10px 20px',
-                background: COLORS.border,
-                color: COLORS.text,
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer'
-              }}
-            >
-              Cancel
-            </button>
+            <button onClick={handleAddOrUpdate} style={{ padding: '10px 20px', background: COLORS.accent, color: 'white', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600' }}>{editingId ? 'Update' : 'Add'}</button>
+            <button onClick={() => { setShowForm(false); setEditingId(null); setFormData({ name: '', formula: '', unit: '', weight: '', threshold: '' }); }} style={{ padding: '10px 20px', background: COLORS.border, color: COLORS.text, border: 'none', borderRadius: '8px', cursor: 'pointer' }}>Cancel</button>
           </div>
         </div>
       )}
@@ -957,214 +619,4 @@ function KPIManagement() {
           </thead>
           <tbody>
             {kpis.map((kpi, idx) => (
-              <tr key={kpi.id} style={{ borderTop: `1px solid ${COLORS.border}`, background: idx % 2 === 0 ? 'white' : COLORS.light }}>
-                <td style={{ padding: '16px' }}>{kpi.name}</td>
-                <td style={{ padding: '16px', fontSize: '12px' }}>{kpi.formula}</td>
-                <td style={{ padding: '16px' }}>{kpi.unit}</td>
-                <td style={{ padding: '16px' }}>{kpi.weight}</td>
-                <td style={{ padding: '16px' }}>{kpi.threshold}</td>
-                <td style={{ padding: '16px' }}>
-                  <button
-                    onClick={() => handleEdit(kpi)}
-                    style={{
-                      padding: '6px 12px',
-                      background: COLORS.secondary,
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      marginRight: '8px',
-                      fontSize: '12px'
-                    }}
-                  >
-                    ✏️ Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(kpi.id)}
-                    style={{
-                      padding: '6px 12px',
-                      background: COLORS.danger,
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      fontSize: '12px'
-                    }}
-                  >
-                    🗑️ Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
-}
-
-// ==================== MAIN APP ====================
-export default function PerformanceManagementApp() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [activeModule, setActiveModule] = useState('dashboard');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-
-  const handleLogin = (user) => {
-    setCurrentUser(user);
-    setIsLoggedIn(true);
-    setActiveModule('dashboard');
-  };
-
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-    setCurrentUser(null);
-    setActiveModule('dashboard');
-  };
-
-  if (!isLoggedIn) {
-    return <LoginPage onLogin={handleLogin} />;
-  }
-
-  const modules = [
-    { id: 'dashboard', name: 'Dashboard', icon: Home },
-    { id: 'users', name: 'User Management', icon: Users },
-    { id: 'employees', name: 'Employee Management', icon: Users },
-    { id: 'kpis', name: 'KPI Management', icon: Target },
-    { id: 'performance', name: 'Performance Tracking', icon: TrendingUp },
-    { id: 'coaching', name: 'Coaching & Development', icon: BookOpen }
-  ];
-
-  const renderModule = () => {
-    switch (activeModule) {
-      case 'dashboard': return <Dashboard />;
-      case 'users': return <UserManagement />;
-      case 'employees': return <EmployeeManagement />;
-      case 'kpis': return <KPIManagement />;
-      case 'performance': return <div style={{ padding: '30px' }}><h2>Performance Tracking</h2><p>Coming soon...</p></div>;
-      case 'coaching': return <div style={{ padding: '30px' }}><h2>Coaching & Development</h2><p>Coming soon...</p></div>;
-      default: return <Dashboard />;
-    }
-  };
-
-  return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: COLORS.light, fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>
-      {/* Sidebar */}
-      <div style={{
-        width: sidebarOpen ? '260px' : '0',
-        background: COLORS.primary,
-        color: 'white',
-        padding: sidebarOpen ? '24px 0' : '0',
-        transition: 'all 0.3s',
-        overflow: 'hidden',
-        borderRight: `1px solid ${COLORS.border}`
-      }}>
-        <h1 style={{ margin: sidebarOpen ? '0 20px 30px 20px' : '0', fontSize: '16px', fontWeight: '700' }}>
-          {APP_NAME}
-        </h1>
-
-        {modules.map(module => {
-          const Icon = module.icon;
-          return (
-            <button
-              key={module.id}
-              onClick={() => setActiveModule(module.id)}
-              style={{
-                width: '100%',
-                padding: '12px 20px',
-                background: activeModule === module.id ? COLORS.secondary : 'transparent',
-                color: 'white',
-                border: 'none',
-                textAlign: 'left',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                fontSize: '14px',
-                fontWeight: activeModule === module.id ? '600' : '500',
-                transition: 'background 0.3s'
-              }}
-              onMouseEnter={(e) => e.target.style.background = activeModule === module.id ? COLORS.secondary : '#374151'}
-              onMouseLeave={(e) => e.target.style.background = activeModule === module.id ? COLORS.secondary : 'transparent'}
-            >
-              <Icon size={18} />
-              {sidebarOpen && module.name}
-            </button>
-          );
-        })}
-
-        <button
-          onClick={handleLogout}
-          style={{
-            width: '100%',
-            padding: '12px 20px',
-            background: 'transparent',
-            color: 'white',
-            border: 'none',
-            textAlign: 'left',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            fontSize: '14px',
-            marginTop: '30px',
-            transition: 'background 0.3s'
-          }}
-          onMouseEnter={(e) => e.target.style.background = '#374151'}
-          onMouseLeave={(e) => e.target.style.background = 'transparent'}
-        >
-          <LogOut size={18} />
-          {sidebarOpen && 'Logout'}
-        </button>
-      </div>
-
-      {/* Main Content */}
-      <div style={{ flex: 1, overflow: 'auto' }}>
-        {/* Header */}
-        <div style={{
-          background: 'white',
-          padding: '16px 24px',
-          borderBottom: `1px solid ${COLORS.border}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
-        }}>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            style={{
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              color: COLORS.text,
-              fontSize: '20px'
-            }}
-          >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-            <span style={{ fontSize: '14px', color: COLORS.text }}>
-              Welcome, {currentUser?.name}!
-            </span>
-            <div style={{
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              background: COLORS.secondary,
-              color: 'white',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontWeight: '700'
-            }}>
-              {currentUser?.name?.charAt(0).toUpperCase()}
-            </div>
-          </div>
-        </div>
-
-        {/* Module Content */}
-        {renderModule()}
-      </div>
-    </div>
-  );
-}
+              <tr key={kpi.id} style={{ borderTop: `1px solid ${
