@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Target, LogOut, Home, Plus, BarChart3, Settings, CheckCircle, Clock, TrendingUp, Download, Menu, X } from 'lucide-react';
+import { Users, Target, LogOut, Home, Plus, BarChart3, CheckCircle, Download, Menu, X } from 'lucide-react';lucide-react';
 import { supabase } from './supabaseClient';
 
 const COLORS = { 
@@ -310,10 +310,11 @@ function GoalManagement({ user }) {
   const [form, setForm] = useState({ title: '', kpi_template_id: '', target_value: '', deadline: '', description: '' });
   const [kpiTemplates, setKpiTemplates] = useState([]);
 
-  useEffect(() => {
+useEffect(() => {
     loadGoals();
     loadKPITemplates();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const loadGoals = async () => {
     const data = await fetchGoals(user.id);
