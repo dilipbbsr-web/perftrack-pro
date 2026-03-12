@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Target, LogOut, Home, Plus, BarChart3, CheckCircle, Download, Menu, X } from 'lucide-react';lucide-react';
+import { Users, Target, LogOut, Home, Plus, BarChart3, CheckCircle, Download, Menu, X } from 'lucide-react';
 import { supabase } from './supabaseClient';
 
 const COLORS = { 
