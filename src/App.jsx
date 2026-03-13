@@ -27,18 +27,22 @@ function LoginPage({ onLogin }) {
   const [password, setPassword] = useState('');
 
   const handleLogin = async (e) => {
-    e.preventDefault();
-    if (email && password) {
-      try {
-        const { data } = await supabase.from('users').select('*').eq('email', email).single();
-        if (data) {
-          onLogin(data);
-        }
-      } catch (err) {
-        alert('Login failed');
+  e.preventDefault();
+  if (email) {  // REMOVED password check
+    try {
+      const { data } = await supabase.from('users').select('*').eq('email', email).single();
+      if (data) {
+        onLogin(data);
+      } else {
+        alert('User not found');
       }
+    } catch (err) {
+      alert('Login error: ' + err.message);
     }
-  };
+  } else {
+    alert('Please enter email');
+  }
+};
 
   return (
     <div style={{ width: '100vw', height: '100vh', background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.secondary})`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
